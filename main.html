@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Игра с движением, разворотом модели и столкновениями</title>
+  <title>Игра с движением, разворотом модели, столкновениями и стрелой</title>
   <style>
     #gameCanvas {
       border: 1px solid #000;
     }
+
+    #hpBar {
+      width: 200px;
+      height: 20px;
+      background-color: #f00;
+      margin: 10px;
+    }
+
+    #gameOver {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      color: red;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="1890" height="950"></canvas>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <div id="hpBar"></div>
+  <div id="gameOver">Game Over</div>
 
   <script>
     // Получение ссылки на холст
@@ -25,16 +44,16 @@
     };
 
     // Загрузка изображений модели
-    playerImages.up.src = "custom/up.png"; // Замените "up.png" на путь к изображению модели, смотрящей вверх
-    playerImages.down.src = "custom/down.png"; // Замените "down.png" на путь к изображению модели, смотрящей вниз
-    playerImages.left.src = "custom/left.png"; // Замените "left.png" на путь к изображению модели, смотрящей влево
-    playerImages.right.src = "custom/right.png"; // Замените "right.png" на путь к изображению модели, смотрящей вправо
+    playerImages.up.src = "up.png"; // Замените "bin/up.png" на путь к изображению модели, смотрящей вверх
+    playerImages.down.src = "down.png"; // Замените "bin/down.png" на путь к изображению модели, смотрящей вниз
+    playerImages.left.src = "left.png"; // Замените "bin/left.png" на путь к изображению модели, смотрящей влево
+    playerImages.right.src = "right.png"; // Замените "bin/right.png" на путь к изображению модели, смотрящей вправо
 
     // Начальные координаты и направление игрока
     var playerX = canvas.width / 2;
     var playerY = canvas.height / 2;
-    var playerWidth = 100;
-    var playerHeight = 100;
+    var playerWidth = 50;
+    var playerHeight = 50;
     var playerSpeed = 5;
     var playerDirection = "down"; // Начальное направление взгляда модели
 
@@ -56,6 +75,16 @@
       // Добавьте остальные стенки в игре по аналогии
     ];
 
+    // Переменная для хранения значения здоровья (ХП)
+    var health = 100;
+
+    // Переменные для стрелы
+    var arrowX, arrowY, arrowWidth, arrowHeight, arrowSpeed, arrowDirection;
+
+    // Переменные для отображения надписи "Game Over"
+    var gameOverText = document.getElementById("gameOver");
+    var isGameOver = false;
+
     // Функция для проверки столкновения игрока с каждой стенкой
     function checkCollisionWithWalls() {
       for (var i = 0; i < walls.length; i++) {
@@ -73,8 +102,31 @@
       }
     }
 
-    // Обновление игры и отрисовка игрока
+    // Функция для проверки столкновения стрелы с игроком
+    function checkCollisionWithPlayer() {
+      if (
+        arrowX < playerX + playerWidth &&
+        arrowX + arrowWidth > playerX &&
+        arrowY < playerY + playerHeight &&
+        arrowY + arrowHeight > playerY
+      ) {
+        // Стрела столкнулась с игроком
+        gameOver();
+      }
+    }
+
+    // Функция для отображения надписи "Game Over" и остановки игры
+    function gameOver() {
+      isGameOver = true;
+      gameOverText.style.display = "block";
+    }
+
+    // Обновление игры и отрисовка игрока, стрелы
     function update() {
+      if (isGameOver) {
+        return;
+      }
+
       // Проверка нажатых клавиш и изменение координат игрока
       if (keys["ArrowUp"]) {
         playerY -= playerSpeed;
@@ -111,6 +163,23 @@
       // Проверка столкновений с "стенками"
       checkCollisionWithWalls();
 
+      // Генерация случайных координат и скорости стрелы
+      if (!arrowX) {
+        arrowX = Math.random() * (canvas.width - arrowWidth);
+        arrowY = Math.random() * (canvas.height - arrowHeight);
+        arrowWidth = 20;
+        arrowHeight = 20;
+        arrowSpeed = Math.random() * 3 + 1; // Случайная скорость от 1 до 4
+        arrowDirection = Math.random() * 2 * Math.PI; // Случайное направление в радианах
+      }
+
+      // Обновление координат стрелы
+      arrowX += arrowSpeed * Math.cos(arrowDirection);
+      arrowY += arrowSpeed * Math.sin(arrowDirection);
+
+      // Проверка столкновения стрелы с игроком
+      checkCollisionWithPlayer();
+
       // Очистка холста
       context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -129,6 +198,14 @@
           context.drawImage(playerImages.right, playerX, playerY, playerWidth, playerHeight);
           break;
       }
+
+      // Отрисовка стрелы
+      context.fillStyle = "#000";
+      context.fillRect(arrowX, arrowY, arrowWidth, arrowHeight);
+
+      // Обновление полоски здоровья (ХП)
+      var hpBar = document.getElementById("hpBar");
+      hpBar.style.width = health + "px";
 
       // Повторный вызов функции обновления для создания анимации
       requestAnimationFrame(update);
