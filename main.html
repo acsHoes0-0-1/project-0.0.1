@@ -1,16 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RFew</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Игра с моделью</title>
+  <style>
+    #gameCanvas {
+      border: 1px solid #000;
+    }
+  </style>
 </head>
 <body>
-  <h1>RAWMAN</h1>
-  
-  <div class="game-container">
-    <button class="game-button" onclick="startGame()">Начать игру</button>
-  </div>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
 
-  <script src="bin/index.js"></script>
+  <script>
+    // Получение ссылки на холст
+    var canvas = document.getElementById("gameCanvas");
+    var context = canvas.getContext("2d");
+
+    // Создание объекта изображения модели
+    var playerImage = new Image();
+    playerImage.src = "custom/person2.png"; // Обновите путь к вашему изображению модели
+
+    // Начальные координаты игрока
+    var playerX = canvas.width / 2;
+    var playerY = canvas.height / 2;
+    var playerWidth = 150;
+    var playerHeight = 150;
+    var playerSpeed = 5;
+
+    // Обработка нажатий клавиш для передвижения игрока
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "w" || event.key === "W" || event.key === "ц" || event.key === "Ц") {
+        playerY -= playerSpeed;
+      } else if (event.key === "s" || event.key === "S" || event.key === "ы" || event.key === "Ы" ) {
+        playerY += playerSpeed;
+      } else if (event.key === "a" || event.key === "A" || event.key === "ф" || event.key === "ф") {
+        playerX -= playerSpeed;
+      } else if (event.key === "d" || event.key === "D" || event.key === "в" || event.key === "В") {
+        playerX += playerSpeed;
+      }
+    });
+
+    // Обновление игры и отрисовка игрока
+    function update() {
+      // Очистка холста
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Отрисовка игрока
+      context.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight);
+
+      // Повторный вызов функции обновления для создания анимации
+      requestAnimationFrame(update);
+    }
+
+    // Запуск игры после загрузки изображения модели
+    playerImage.onload = function() {
+      update();
+    };
+  </script>
 </body>
 </html>
