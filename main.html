@@ -151,6 +151,48 @@
     ]).then(() => {
       update();
     });
+     
   </script>
 </body>
+</html>
+<!DOCTYPE html> 
+<html> 
+  <head>   
+  <title>Моя мини-игра</title>  
+    <style>    
+      body {       
+      text-align: center;      
+      font-family: Arial, sans-serif;   
+      }     
+      h1 {       color: #2196F3;     }     
+    .game-container {     
+      display: flex;     
+      justify-content: center;     
+      align-items: center;     
+      height: 400px; 
+    }    
+    .game-button {      
+      display: inline-block;     
+      padding: 10px 20px;      
+      font-size: 16px;     
+      background-color: #2196F3;    
+      color: #fff;      
+      border: none;     
+      border-radius: 3px;    
+      cursor: pointer;     
+      }            
+    </style> 
+    </head> 
+<body>   
+  <h1>Моя мини-игра</h1> 
+  <div class="game-container">    
+   <button class="game-button" onclick="startGame()">Начать игру</button>   
+  </div>   
+<script>     
+function startGame() {       
+  alert("Игра началась!");       
+  // Ваш код игры здесь     
+}   
+</script> 
+</body> 
 </html>
