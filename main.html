@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Игра с моделью</title>
+  <title>Игра с движением, разворотом модели и столкновениями</title>
   <style>
     #gameCanvas {
       border: 1px solid #000;
@@ -9,53 +9,148 @@
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <canvas id="gameCanvas" width="1890" height="950"></canvas>
 
   <script>
     // Получение ссылки на холст
     var canvas = document.getElementById("gameCanvas");
     var context = canvas.getContext("2d");
 
-    // Создание объекта изображения модели
-    var playerImage = new Image();
-    playerImage.src = "custom/person2.png"; // Обновите путь к вашему изображению модели
+    // Создание объектов изображений модели
+    var playerImages = {
+      up: new Image(),
+      down: new Image(),
+      left: new Image(),
+      right: new Image()
+    };
 
-    // Начальные координаты игрока
+    // Загрузка изображений модели
+    playerImages.up.src = "custom/up.png"; // Замените "up.png" на путь к изображению модели, смотрящей вверх
+    playerImages.down.src = "custom/down.png"; // Замените "down.png" на путь к изображению модели, смотрящей вниз
+    playerImages.left.src = "custom/left.png"; // Замените "left.png" на путь к изображению модели, смотрящей влево
+    playerImages.right.src = "custom/right.png"; // Замените "right.png" на путь к изображению модели, смотрящей вправо
+
+    // Начальные координаты и направление игрока
     var playerX = canvas.width / 2;
     var playerY = canvas.height / 2;
-    var playerWidth = 150;
-    var playerHeight = 150;
+    var playerWidth = 100;
+    var playerHeight = 100;
     var playerSpeed = 5;
+    var playerDirection = "down"; // Начальное направление взгляда модели
 
-    // Обработка нажатий клавиш для передвижения игрока
+    // Массив для хранения текущих нажатых клавиш
+    var keys = {};
+
+    // Обработка нажатия и отпускания клавиш
     document.addEventListener("keydown", function(event) {
-      if (event.key === "w" || event.key === "W" || event.key === "ц" || event.key === "Ц") {
-        playerY -= playerSpeed;
-      } else if (event.key === "s" || event.key === "S" || event.key === "ы" || event.key === "Ы" ) {
-        playerY += playerSpeed;
-      } else if (event.key === "a" || event.key === "A" || event.key === "ф" || event.key === "ф") {
-        playerX -= playerSpeed;
-      } else if (event.key === "d" || event.key === "D" || event.key === "в" || event.key === "В") {
-        playerX += playerSpeed;
-      }
+      keys[event.key] = true;
     });
+
+    document.addEventListener("keyup", function(event) {
+      keys[event.key] = false;
+    });
+
+    // Определение стенок в игре
+    var walls = [
+      { x: 200, y: 100, width: 20, height: 200 }, // Пример стенки: x=200, y=100, width=20, height=200
+      // Добавьте остальные стенки в игре по аналогии
+    ];
+
+    // Функция для проверки столкновения игрока с каждой стенкой
+    function checkCollisionWithWalls() {
+      for (var i = 0; i < walls.length; i++) {
+        var wall = walls[i];
+
+        if (
+          playerX < wall.x + wall.width &&
+          playerX + playerWidth > wall.x &&
+          playerY < wall.y + wall.height &&
+          playerY + playerHeight > wall.y
+        ) {
+          // Игрок столкнулся со стенкой, выполняйте нужные действия
+          // Например, остановите игрока или измените направление движения
+        }
+      }
+    }
 
     // Обновление игры и отрисовка игрока
     function update() {
+      // Проверка нажатых клавиш и изменение координат игрока
+      if (keys["ArrowUp"]) {
+        playerY -= playerSpeed;
+        if (playerY < 0) {
+          playerY = 0;
+        }
+        playerDirection = "up";
+      }
+
+      if (keys["ArrowDown"]) {
+        playerY += playerSpeed;
+        if (playerY > canvas.height - playerHeight) {
+          playerY = canvas.height - playerHeight;
+        }
+        playerDirection = "down";
+      }
+
+      if (keys["ArrowLeft"]) {
+        playerX -= playerSpeed;
+        if (playerX < 0) {
+          playerX = 0;
+        }
+        playerDirection = "left";
+      }
+
+      if (keys["ArrowRight"]) {
+        playerX += playerSpeed;
+        if (playerX > canvas.width - playerWidth) {
+          playerX = canvas.width - playerWidth;
+        }
+        playerDirection = "right";
+      }
+
+      // Проверка столкновений с "стенками"
+      checkCollisionWithWalls();
+
       // Очистка холста
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Отрисовка игрока
-      context.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight);
+      // Отрисовка игрока в зависимости от направления взгляда
+      switch (playerDirection) {
+        case "up":
+          context.drawImage(playerImages.up, playerX, playerY, playerWidth, playerHeight);
+          break;
+        case "down":
+          context.drawImage(playerImages.down, playerX, playerY, playerWidth, playerHeight);
+          break;
+        case "left":
+          context.drawImage(playerImages.left, playerX, playerY, playerWidth, playerHeight);
+          break;
+        case "right":
+          context.drawImage(playerImages.right, playerX, playerY, playerWidth, playerHeight);
+          break;
+      }
 
       // Повторный вызов функции обновления для создания анимации
       requestAnimationFrame(update);
     }
 
-    // Запуск игры после загрузки изображения модели
-    playerImage.onload = function() {
+    // Запуск игры после загрузки изображений модели
+    Promise.all([
+      new Promise((resolve, reject) => {
+        playerImages.up.onload = resolve;
+      }),
+      new Promise((resolve, reject) => {
+        playerImages.down.onload = resolve;
+      }),
+      new Promise((resolve, reject) => {
+        playerImages.left.onload = resolve;
+      }),
+      new Promise((resolve, reject) => {
+        playerImages.right.onload = resolve;
+      })
+    ]).then(() => {
       update();
-    };
+    });
   </script>
 </body>
 </html>
