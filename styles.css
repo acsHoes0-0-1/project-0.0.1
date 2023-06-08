@@ -51,3 +51,50 @@ canvas {
   display: block;
   margin: 20px auto;
 }
+    
+.menu-container { 
+position: absolute; 
+top: 70%; 
+left: 50%; 
+transform: translate(-50%, -50%); 
+} 
+ 
+.menu-btn { 
+background-color: #4CAF50; 
+color: white; 
+padding: 12px; 
+border: none; 
+border-radius: 4px; 
+cursor: pointer; 
+} 
+ 
+.menu-dropdown { 
+display: none; 
+position: absolute; 
+z-index: 1; 
+top: 100%; 
+left: 50%; 
+transform: translateX(-50%); 
+background-color: #f1f1f1; 
+width: 200px; 
+border: 1px solid #ccc; 
+} 
+ 
+.menu-dropdown button { 
+display: block; 
+color: black; 
+padding: 12px; 
+border: none; 
+border-bottom: 1px solid #ccc; 
+width: 100%; 
+text-align: left; 
+cursor: pointer; 
+} 
+ 
+.menu-dropdown button:hover { 
+background-color: #ddd; 
+} 
+ 
+.menu-container:hover .menu-dropdown { 
+display: block; 
+}
