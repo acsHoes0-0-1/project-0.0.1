@@ -1,3 +1,4 @@
+function main() {
 // Получение ссылки на холст
 var canvas = document.getElementById("gameCanvas");
 var context = canvas.getContext("2d");
@@ -231,3 +232,6 @@ Promise.all([
 ]).then(() => {
   update();
 });
+};
+startButton.addEventListener("click", startGame);
+window.onload = main;
