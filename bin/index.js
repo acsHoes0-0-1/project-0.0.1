@@ -11,10 +11,14 @@ var playerImages = {
 };
 
 // Загрузка изображений модели
-playerImages.up.src = "custom/up2.png"; // Замените "bin/up.png" на путь к изображению модели, смотрящей вверх
-playerImages.down.src = "custom/down2.png"; // Замените "bin/down.png" на путь к изображению модели, смотрящей вниз
-playerImages.left.src = "custom/left2.png"; // Замените "bin/left.png" на путь к изображению модели, смотрящей влево
-playerImages.right.src = "custom/right2.png"; // Замените "bin/right.png" на путь к изображению модели, смотрящей вправо
+playerImages.up.src = "custom/skeleton-up2.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
+playerImages.down.src = "custom/skeleton-down2.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
+playerImages.left.src = "custom/skeleton-left2.png"; // Замените "custom/skeleton-left2.png" на путь к изображению модели, смотрящей влево
+playerImages.right.src = "custom/skeleton-right2.png"; // Замените "custom/skeleton-right2.png" на путь к изображению модели, смотрящей вправо
+
+// Создание объекта анимации стрелы
+var arrowAnimation = new Image();
+arrowAnimation.src = "custom/2345.gif"; // Замените "custom/re.gif" на путь к анимированному GIF-файлу стрелы
 
 // Начальные координаты и направление игрока
 var playerX = canvas.width / 2;
@@ -52,6 +56,25 @@ var arrow = {
   direction: Math.random() * 2 * Math.PI
 };
 
+// Функция для обновления положения стрелы
+function updateArrow() {
+  arrow.x += Math.cos(arrow.direction) * arrow.speed;
+  arrow.y += Math.sin(arrow.direction) * arrow.speed;
+
+  // Проверка выхода стрелы за пределы холста и изменение направления
+  if (
+    arrow.x < 0 ||
+    arrow.x + arrow.width > canvas.width ||
+    arrow.y < 0 ||
+    arrow.y + arrow.height > canvas.height
+  ) {
+    arrow.x = Math.random() * (canvas.width - 20);
+    arrow.y = Math.random() * (canvas.height - 20);
+    arrow.direction = Math.random() * 2 * Math.PI;
+    arrow.speed = Math.random() * 3 + 1;
+  }
+}
+
 // Функция для проверки столкновения игрока с каждой стенкой
 function checkCollisionWithWalls() {
   for (var i = 0; i < walls.length; i++) {
@@ -63,8 +86,7 @@ function checkCollisionWithWalls() {
       playerY < wall.y + wall.height &&
       playerY + playerHeight > wall.y
     ) {
-      // Игрок столкнулся со стенкой, выполняйте нужные действия
-      // Например, остановите игрока или измените направление движения
+
     }
   }
 }
@@ -117,10 +139,10 @@ function update() {
     playerDirection = "right";
   }
 
-  // Проверка столкновений с "стенками"
+  // Проверка столкновений со стенками
   checkCollisionWithWalls();
 
-  // Проверка столкновения со стрелой
+  // Проверка столкновения с стрелой
   checkCollisionWithArrow();
 
   // Очистка холста
@@ -142,26 +164,11 @@ function update() {
       break;
   }
 
-  // Отрисовка стрелы
-  context.fillStyle = "red";
-  context.fillRect(arrow.x, arrow.y, arrow.width, arrow.height);
+  // Отрисовка анимации стрелы
+  context.drawImage(arrowAnimation, arrow.x, arrow.y, arrow.width, arrow.height);
 
   // Обновление координат стрелы
-  arrow.x += Math.cos(arrow.direction) * arrow.speed;
-  arrow.y += Math.sin(arrow.direction) * arrow.speed;
-
-  // Проверка выхода стрелы за пределы холста и изменение направления
-  if (
-    arrow.x < 0 ||
-    arrow.x + arrow.width > canvas.width ||
-    arrow.y < 0 ||
-    arrow.y + arrow.height > canvas.height
-  ) {
-    arrow.x = Math.random() * (canvas.width - 20);
-    arrow.y = Math.random() * (canvas.height - 20);
-    arrow.direction = Math.random() * 2 * Math.PI;
-    arrow.speed = Math.random() * 3 + 1;
-  }
+  updateArrow();
 
   // Повторный вызов функции обновления для создания анимации
   requestAnimationFrame(update);
@@ -180,6 +187,9 @@ Promise.all([
   }),
   new Promise((resolve, reject) => {
     playerImages.right.onload = resolve;
+  }),
+  new Promise((resolve, reject) => {
+    arrowAnimation.onload = resolve;
   })
 ]).then(() => {
   update();
