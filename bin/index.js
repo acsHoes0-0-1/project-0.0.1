@@ -1,6 +1,38 @@
 // Получение ссылки на холст
 var canvas = document.getElementById("gameCanvas");
 var context = canvas.getContext("2d");
+var health = 100; // Начальное значение HP
+var armor = 0; // Начальное значение брони
+var audio = document.getElementById("noise");
+var playButton = document.getElementById("playButton");
+audio.volume = 0.1; // музыка
+
+
+// Проверка, сохранено ли состояние плеера в Local Storage
+if (localStorage.getItem("isPlaying") === "true") {
+  // Если состояние плеера сохранено как "воспроизводится", начать воспроизведение
+  audio.play();
+  playButton.innerHTML = "Pause"; // Изменить текст кнопки на "Пауза"
+} else {
+  // Если состояние плеера сохранено как "не воспроизводится", остановить воспроизведение
+  audio.pause();
+  playButton.innerHTML = "Play"; // Изменить текст кнопки на "Воспроизвести"
+}
+
+// Обработчик события для кнопки управления
+playButton.addEventListener("click", function() {
+  if (audio.paused) {
+    // Если аудио остановлено, начать воспроизведение
+    audio.play();
+    playButton.innerHTML = "Pause"; // Изменить текст кнопки на "Пауза"
+    localStorage.setItem("isPlaying", "true"); // Сохранить состояние в Local Storage
+  } else {
+    // Если аудио воспроизводится, остановить воспроизведение
+    audio.pause();
+    playButton.innerHTML = "Play"; // Изменить текст кнопки на "Воспроизвести"
+    localStorage.setItem("isPlaying", "false"); // Сохранить состояние в Local Storage
+  }
+});
 
 // Создание объектов изображений модели
 var playerImages = {
@@ -19,6 +51,15 @@ playerImages.right.src = "custom/skeleton-right2.png"; // Замените "cust
 // Создание объекта анимации стрелы
 var arrowAnimation = new Image();
 arrowAnimation.src = "custom/2345.gif"; // Замените "custom/re.gif" на путь к анимированному GIF-файлу стрелы
+
+function updateStats() {
+  var healthBar = document.getElementById("healthBar");
+  var armorBar = document.getElementById("armorBar");
+
+  healthBar.textContent = "HP: " + health + "%";
+  armorBar.textContent = "Armor: " + armor;
+}
+
 
 // Начальные координаты и направление игрока
 var playerX = canvas.width / 2;
@@ -48,12 +89,12 @@ var walls = [
 
 // Определение стрелы
 var arrow = {
-  x: Math.random() * (canvas.width - 20),
-  y: Math.random() * (canvas.height - 20),
+  x: canvas.width - 20,
+  y: canvas.height - 20,
   width: 20,
   height: 20,
-  speed: Math.random() * 3 + 1,
-  direction: Math.random() * 2 * Math.PI
+  speed: 5,
+  direction: Math.PI
 };
 
 // Функция для обновления положения стрелы
@@ -68,10 +109,10 @@ function updateArrow() {
     arrow.y < 0 ||
     arrow.y + arrow.height > canvas.height
   ) {
-    arrow.x = Math.random() * (canvas.width - 20);
-    arrow.y = Math.random() * (canvas.height - 20);
+    arrow.x = canvas.width - 20;
+    arrow.y = canvas.height - 20;
     arrow.direction = Math.random() * 2 * Math.PI;
-    arrow.speed = Math.random() * 3 + 1;
+    arrow.speed = 5;
   }
 }
 
@@ -79,15 +120,10 @@ function updateArrow() {
 function checkCollisionWithWalls() {
   for (var i = 0; i < walls.length; i++) {
     var wall = walls[i];
-
-    if (
       playerX < wall.x + wall.width &&
       playerX + playerWidth > wall.x &&
       playerY < wall.y + wall.height &&
       playerY + playerHeight > wall.y
-    ) {
-
-    }
   }
 }
 
@@ -99,13 +135,13 @@ function checkCollisionWithArrow() {
     playerY < arrow.y + arrow.height &&
     playerY + playerHeight > arrow.y
   ) {
-    // Игрок столкнулся со стрелой, нанесите урон игроку
-    // Например, уменьшите его здоровье или выполните другие действия
+    health -= 20;
   }
 }
 
 // Обновление игры и отрисовка игрока и стрелы
 function update() {
+
   // Проверка нажатых клавиш и изменение координат игрока
   if (keys["ArrowUp"]) {
     playerY -= playerSpeed;
