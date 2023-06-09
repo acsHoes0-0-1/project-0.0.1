@@ -2,16 +2,27 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>VarLord</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AdminProblem</title>
+    <link rel="stylesheet" href="style-games.css">
     <audio id="noise" src="music/noise.mp3" loop></audio>
-    <button id="playButton">Stop</button>    
+    <div id="playButtonWrapper">
+      <button id="playButton">🔊</button>
+    </div> 
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
-  <div id="healthBar">HP: 100%</div>
-  <div id="armorBar">Armor: 0</div>
-  <button class="game-button" onclick="main()" src="bin/index.js">Начать игру</button>
+  <div class="container">
+    <h1 class="title">AdminProblem</h1>
+    <canvas id="gameCanvas" width="1890" height="730"></canvas>
+    <div id="healthBar">HP: 100%</div>
+    <div id="armorBar">Armor: 0</div>
+
+    <div id="game-over">
+      <h2>🍀Начинай заново🍀</h2>
+    </div>
+    
+    <button class="game-button" onclick="main()">Начать игру</button>
+  </div>
+
   <script src="bin/index.js"></script>
-</body>
+</body> 
 </html>

@@ -1,100 +1,53 @@
 body {
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #212121;
+    font-family: Arial, sans-serif;
+  }
 
-h1 {
-  color: #2196F3;
-}
+  .container {
+    text-align: center;
+  }
 
-.game-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-}
+  .title {
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
 
-.game-button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #2196F3;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
+  .game-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-#gameCanvas {
-  border: 1px solid #000;
-}
+  .game-button:hover {
+    background-color: #0d8bf1;
+  }
 
-#hpBar {
-  width: 200px;
-  height: 20px;
-  background-color: #f00;
-  margin: 10px;
-}
+  #gameCanvas {
+    background-color: #000;
+  }
 
-#gameOver {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: red;
-  display: none;
-}
+  #healthBar, #armorBar {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
 
-canvas {
-  border: 1px solid black;
-  display: block;
-  margin: 20px auto;
-}
-    
-.menu-container { 
-position: absolute; 
-top: 70%; 
-left: 50%; 
-transform: translate(-50%, -50%); 
-} 
- 
-.menu-btn { 
-background-color: #4CAF50; 
-color: white; 
-padding: 12px; 
-border: none; 
-border-radius: 4px; 
-cursor: pointer; 
-} 
- 
-.menu-dropdown { 
-display: none; 
-position: absolute; 
-z-index: 1; 
-top: 100%; 
-left: 50%; 
-transform: translateX(-50%); 
-background-color: #f1f1f1; 
-width: 200px; 
-border: 1px solid #ccc; 
-} 
- 
-.menu-dropdown button { 
-display: block; 
-color: black; 
-padding: 12px; 
-border: none; 
-border-bottom: 1px solid #ccc; 
-width: 100%; 
-text-align: left; 
-cursor: pointer; 
-} 
- 
-.menu-dropdown button:hover { 
-background-color: #ddd; 
-} 
- 
-.menu-container:hover .menu-dropdown { 
-display: block; 
-}
+  #game-over {
+    display: none;
+    color: #fff;
+    font-size: 24px;
+  }

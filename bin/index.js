@@ -8,16 +8,28 @@ var audio = document.getElementById("noise");
 var playButton = document.getElementById("playButton");
 audio.volume = 0.1; // музыка
 
+hideGameOver();
+
+function showGameOver() {
+  const gameOverElement = document.getElementById("game-over");
+  gameOverElement.style.display = "block";
+  return update()
+}
+
+function hideGameOver() {
+  const gameOverElement = document.getElementById("game-over");
+  gameOverElement.style.display = "none";
+}
 
 // Проверка, сохранено ли состояние плеера в Local Storage
 if (localStorage.getItem("isPlaying") === "true") {
   // Если состояние плеера сохранено как "воспроизводится", начать воспроизведение
   audio.play();
-  playButton.innerHTML = "Pause"; // Изменить текст кнопки на "Пауза"
+  playButton.innerHTML = "🔉"; // Изменить текст кнопки на "Пауза"
 } else {
   // Если состояние плеера сохранено как "не воспроизводится", остановить воспроизведение
   audio.pause();
-  playButton.innerHTML = "Play"; // Изменить текст кнопки на "Воспроизвести"
+  playButton.innerHTML = "🔊"; // Изменить текст кнопки на "Воспроизвести"
 }
 
 // Обработчик события для кнопки управления
@@ -25,12 +37,12 @@ playButton.addEventListener("click", function() {
   if (audio.paused) {
     // Если аудио остановлено, начать воспроизведение
     audio.play();
-    playButton.innerHTML = "Pause"; // Изменить текст кнопки на "Пауза"
+    playButton.innerHTML = "🔉"; // Изменить текст кнопки на "Пауза"
     localStorage.setItem("isPlaying", "true"); // Сохранить состояние в Local Storage
   } else {
     // Если аудио воспроизводится, остановить воспроизведение
     audio.pause();
-    playButton.innerHTML = "Play"; // Изменить текст кнопки на "Воспроизвести"
+    playButton.innerHTML = "🔊"; // Изменить текст кнопки на "Воспроизвести"
     localStorage.setItem("isPlaying", "false"); // Сохранить состояние в Local Storage
   }
 });
@@ -44,10 +56,10 @@ var playerImages = {
 };
 
 // Загрузка изображений модели
-playerImages.up.src = "custom/skeleton-up2.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
-playerImages.down.src = "custom/skeleton-down2.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
-playerImages.left.src = "custom/skeleton-left2.png"; // Замените "custom/skeleton-left2.png" на путь к изображению модели, смотрящей влево
-playerImages.right.src = "custom/skeleton-right2.png"; // Замените "custom/skeleton-right2.png" на путь к изображению модели, смотрящей вправо
+playerImages.up.src = "custom/king-up5.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
+playerImages.down.src = "custom/king-down5.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
+playerImages.left.src = "custom/king-left5.png"; // Замените "custom/skeleton-left2.png" на путь к изображению модели, смотрящей влево
+playerImages.right.src = "custom/king-right5.png"; // Замените "custom/skeleton-right2.png" на путь к изображению модели, смотрящей вправо
 
 // Создание объекта анимации стрелы
 var arrowAnimation = new Image();
@@ -84,14 +96,16 @@ document.addEventListener("keyup", function(event) {
 
 // Определение стенок в игре
 var walls = [
-  { x: 200, y: 100, width: 20, height: 200 }, // Пример стенки: x=200, y=100, width=20, height=200
-  // Добавьте остальные стенки в игре по аналогии
-];
+    { x: 0, y: 0, width: 0, height: 750 }, // Левая стенка
+    { x: 1, y: 1, width: 1890, height: 1 }, // Верхняя стенка
+    { x: 1, y: 750, width: 1890, height: 1 }, // Нижняя стенка
+    { x: 1870, y: 0, width: 0, height: 750 } // Правая стенка
+  ]; // Пример стенки: x=200, y=100, width=20, height=200
 
 // Определение стрелы
 var arrow = {
-  x: canvas.width - 20,
-  y: canvas.height - 20,
+  x: 0,
+  y: 0,
   width: 20,
   height: 20,
   speed: 5,
@@ -110,10 +124,12 @@ function updateArrow() {
     arrow.y < 0 ||
     arrow.y + arrow.height > canvas.height
   ) {
-    arrow.x = canvas.width - 20;
-    arrow.y = canvas.height - 20;
+    // Переместить стрелу в рандомную стенку
+    var randomWallIndex = Math.floor(Math.random() * walls.length);
+    var randomWall = walls[randomWallIndex];
+    arrow.x = randomWall.x + randomWall.width / 2;
+    arrow.y = randomWall.y + randomWall.height / 2;
     arrow.direction = Math.random() * 2 * Math.PI;
-    arrow.speed = 5;
   }
 }
 
@@ -130,20 +146,28 @@ function checkCollisionWithWalls() {
 }
 
 // Функция для проверки столкновения игрока со стрелой
-function checkCollisionWithArrow() {
+function checkCollisionWithPlayer() {
   if (
-    playerX < arrow.x + arrow.width &&
-    playerX + playerWidth > arrow.x &&
-    playerY < arrow.y + arrow.height &&
-    playerY + playerHeight > arrow.y
+    arrow.x < playerX + playerWidth &&
+    arrow.x + arrow.width > playerX &&
+    arrow.y < playerY + playerHeight &&
+    arrow.y + arrow.height > playerY
   ) {
-    health -= 20;
+    health -= 106;
+    // Переместить стрелу в рандомную стенку
+    var randomWallIndex = Math.floor(Math.random() * walls.length);
+    var randomWall = walls[randomWallIndex];
+    arrow.x = randomWall.x + randomWall.width / 2;
+    arrow.y = randomWall.y + randomWall.height / 2;
+    arrow.direction = Math.random() * 2 * Math.PI;
   }
 }
-
 // Обновление игры и отрисовка игрока и стрелы
 function update() {
-
+    if (health <= 0) {
+      showGameOver();
+      return; // Завершение функции
+    }
   // Проверка нажатых клавиш и изменение координат игрока
   if (keys["ArrowUp"]) {
     playerY -= playerSpeed;
@@ -181,7 +205,7 @@ function update() {
   checkCollisionWithWalls();
 
   // Проверка столкновения с стрелой
-  checkCollisionWithArrow();
+  checkCollisionWithPlayer();
 
   // Очистка холста
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -210,6 +234,7 @@ function update() {
 
   // Повторный вызов функции обновления для создания анимации
   requestAnimationFrame(update);
+  updateStats();
 }
 
 // Запуск игры после загрузки изображений модели
@@ -233,5 +258,4 @@ Promise.all([
   update();
 });
 };
-startButton.addEventListener("click", startGame);
-window.onload = main;
+window.onload = game;

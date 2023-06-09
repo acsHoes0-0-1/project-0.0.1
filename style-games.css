@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #212121;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    text-align: center;
+  }
+
+  .title {
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .game-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .game-button:hover {
+    background-color: #0d8bf1;
+  }
+
+  #gameCanvas {
+    background-color: #ffffff;
+  }
+
+  #healthBar, #armorBar {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  #game-over {
+    display: none;
+    color: #131212;
+    font-size: 24px;
+    font-family: "Arial", sans-serif; /* Измените на нужный вам шрифт */
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #volumeButtonWrapper {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  #playButtonWrapper {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  #playButton {
+    background-color: #fff;
+    color: #000;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  
+  #playButton:hover {
+    background-color: #ddd;
+  }

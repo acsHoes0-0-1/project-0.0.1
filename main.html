@@ -1,25 +1,40 @@
-<!DOCTYPE html>  
-<html>  
-  <head>
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="UTF-8">
     <title>VarLord</title>
-    <link rel="stylesheet" href="styles.css">    
-    </head>  
-  <body>
-    
-  <h1>Моя мини-игра</h1>  
-  <div class="game-container">     
-    <a href="game.html">Начать игру</a>    
-  </div> 
+    <link rel="stylesheet" href="styles.css">
+    <audio id="noise" src="music/noise.mp3" loop></audio>
+</head>
+<body>
+  <canvas id="gameCanvas" width="1890" height="750"></canvas>
+  <div id="healthBar">HP: 100%</div>
+  <div id="armorBar">Armor: 0</div>
+
+  <div id="game-over" style="display: none;">
+    <h1>Game Over</h1>
+    <button class="game-button" onclick="restartGame()">Рестарт</button>
+  </div>
   
+  <button id="startButton" class="game-button">Начать игру</button>
   
-  <div class="menu-container"> 
-    <button class="menu-btn">Меню</button> 
-    <div class="menu-dropdown"> 
-      <button class="menu-item">Настройки</button> 
-      <button class="menu-item">FAQ</button> 
-      <button class="menu-item">Политика Конфиденциальности</button> 
-    </div> 
-  </div>  
-</body>  
+  <script src="bin/index.js"></script>
+  <script>
+    // Получить ссылку на кнопку "Начать игру"
+    var startButton = document.getElementById('startButton');
+
+    // Функция для удаления обработчика события
+    function removeStartGameListener() {
+      startButton.removeEventListener('click', startGame);
+    }
+
+    // Функция для добавления обработчика события
+    function addStartGameListener() {
+      startButton.addEventListener('click', startGame);
+    }
+
+    // Инициализация игры
+    addStartGameListener();
+  </script>
+</body>
 </html>
