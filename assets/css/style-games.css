@@ -16,7 +16,7 @@
   }
 
   #gameCanvas {
-    background-color: #c73535;
+    background-color: gray;
   }
 
   #healthBar, #armorBar {
