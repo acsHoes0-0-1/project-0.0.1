@@ -1,0 +1,64 @@
+ .game-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .game-button:hover {
+    background-color: #0d8bf1;
+  }
+
+  #gameCanvas {
+    background-color: #c73535;
+  }
+
+  #healthBar, #armorBar {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+
+  #volumeButtonWrapper {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  #playButtonWrapper {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: flex-start;
+  }
+/*   
+  #playButton {
+    background-color: #fff;
+    color: #000;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  
+  #playButton:hover {
+    background-color: #ddd;
+  } */
+
+  .meteor {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red; /* Цвет метеорита (можете настроить по вашему вкусу) */
+  }
