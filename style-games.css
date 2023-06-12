@@ -37,7 +37,7 @@ body {
   }
 
   #gameCanvas {
-    background-color: #ffffff;
+    background-color: #c73535;
   }
 
   #healthBar, #armorBar {
@@ -60,17 +60,17 @@ body {
   #volumeButtonWrapper {
     position: fixed;
     top: 10px;
-    right: 10px;
+    left: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
   
   #playButtonWrapper {
     position: fixed;
     top: 10px;
-    right: 10px;
+    left: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
   
   #playButton {
@@ -85,4 +85,11 @@ body {
   
   #playButton:hover {
     background-color: #ddd;
+  }
+
+  .meteor {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red; /* Цвет метеорита (можете настроить по вашему вкусу) */
   }

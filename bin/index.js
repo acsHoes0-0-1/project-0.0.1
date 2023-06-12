@@ -65,6 +65,7 @@ playerImages.right.src = "custom/king-right5.png"; // Замените "custom/s
 var arrowAnimation = new Image();
 arrowAnimation.src = "custom/2345.gif"; // Замените "custom/re.gif" на путь к анимированному GIF-файлу стрелы
 
+
 function updateStats() {
   var healthBar = document.getElementById("healthBar");
   var armorBar = document.getElementById("armorBar");
@@ -98,7 +99,7 @@ document.addEventListener("keyup", function(event) {
 var walls = [
     { x: 0, y: 0, width: 0, height: 750 }, // Левая стенка
     { x: 1, y: 1, width: 1890, height: 1 }, // Верхняя стенка
-    { x: 1, y: 750, width: 1890, height: 1 }, // Нижняя стенка
+    { x: 1, y: 730, width: 1, height: 1 }, // Нижняя стенка
     { x: 1870, y: 0, width: 0, height: 750 } // Правая стенка
   ]; // Пример стенки: x=200, y=100, width=20, height=200
 
