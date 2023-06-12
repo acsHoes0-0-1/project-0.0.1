@@ -66,11 +66,20 @@ var playerImages = {
   right: new Image()
 };
 
-// Загрузка изображений модели
-playerImages.up.src = "custom/king-up5.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
-playerImages.down.src = "custom/king-down5.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
-playerImages.left.src = "custom/king-left5.png"; // Замените "custom/skeleton-left2.png" на путь к изображению модели, смотрящей влево
-playerImages.right.src = "custom/king-right5.png"; // Замените "custom/skeleton-right2.png" на путь к изображению модели, смотрящей вправо
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    let img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// // Загрузка изображений модели
+// playerImages.up.src = "custom/king-up5.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
+// playerImages.down.src = "custom/king-down5.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
+// playerImages.left.src = "custom/king-left5.png"; // Замените "custom/skeleton-left2.png" на путь к изображению модели, смотрящей влево
+// playerImages.right.src = "custom/king-right5.png"; // Замените "custom/skeleton-right2.png" на путь к изображению модели, смотрящей вправо
 
 // Создание объекта анимации стрелы
 var arrowAnimation = new Image();
@@ -264,25 +273,19 @@ update();
 let test = setInterval(update, 1000/60);
 
 
-// Запуск игры после загрузки изображений модели
-// Promise.all([
-//   new Promise((resolve, reject) => {
-//     playerImages.up.onload = resolve;
-//   }),
-//   new Promise((resolve, reject) => {
-//     playerImages.down.onload = resolve;
-//   }),
-//   new Promise((resolve, reject) => {
-//     playerImages.left.onload = resolve;
-//   }),
-//   new Promise((resolve, reject) => {
-//     playerImages.right.onload = resolve;
-//   }),
-//   new Promise((resolve, reject) => {
-//     arrowAnimation.onload = resolve;
-//   })
-// ]).then(() => {
-//   update();
-// });
+Promise.all([
+  loadImage("custom/king-up5.png"),
+  loadImage("custom/king-down5.png"),
+  loadImage("custom/king-left5.png"),
+  loadImage("custom/king-right5.png"),
+  loadImage("custom/2345.gif"),
+]).then(([up, down, left, right, arrow]) => {
+  playerImages.up = up;
+  playerImages.down = down;
+  playerImages.left = left;
+  playerImages.right = right;
+  arrowAnimation = arrow;
+  update();
+});
 };
 // window.onload = main;
