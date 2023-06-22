@@ -98,14 +98,22 @@
       }
       .bd-mode-toggle {
         z-index: 1500;
-      }
+      } 
+      .video {
+      width: 30%;
+      height: 100vh;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        justify-content: center;
+    }
     </style>
 
     
     <!-- Custom styles for this template -->
     <!-- <link href="./assets/css/main.css" rel="stylesheet"> -->
   </head>
-  <body>
+  <body> 
     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
       <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
               id="bd-theme"
@@ -161,11 +169,16 @@
         </p>
         <div class="d-inline-flex gap-2">
           <a href="./game.html" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
-            Авторизация
+             Войти
           </a>
+           
         </div>
+
       </div>
-    </div>
+      </div>
+      <div class="video">
+   <video width="650" height="500" autoplay loop controls  src="\custom\game.video.mp4" preload="auto" ></video>
+  </div>
   </main>
 </div>
     </body>
