@@ -708,11 +708,9 @@ function resetStopwatch() {
 function displayTime() {
   var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
   var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
-  var displayMilliseconds = milliseconds < 10 ? "0" + milliseconds : milliseconds;
 
   document.querySelector('#minutes').textContent = displayMinutes;
   document.querySelector('#seconds').textContent = displaySeconds;
-  document.querySelector('#milliseconds').textContent = displayMilliseconds;
 }
 
 function changeSkin(id) {
