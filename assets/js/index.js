@@ -30,7 +30,12 @@ function loadImage(src) {
 
 let game_skins = {
   1: loadImage("custom/king-down5.png"),
-  2: loadImage("custom/down3.png")
+  2: loadImage("custom/down3.png"),
+  3: loadImage("custom/smile-down4.png"),
+  4: loadImage("custom/x-down.png"),
+  5: loadImage("custom/down-skel.png"),
+  6: loadImage("custom/call-down4.png"),
+  7: loadImage("custom/blackhole-down6.png"),
 }
 
 let player_skin = loadImage("custom/king-down5.png");
