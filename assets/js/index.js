@@ -19,6 +19,7 @@ const startGameFunction = () => {
 };
 
 
+
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     let img = new Image();
@@ -51,6 +52,7 @@ function main() {
   // playGameButton.setAttribute('disabled', true);
 
   function showGameOver() {
+    document.querySelector('#playTime').textContent = `${document.querySelector('#minutes').textContent} минут и ${document.querySelector('#seconds').textContent} секунд`
     myModal.show();
     stopStopwatch();
     return update();
@@ -187,37 +189,41 @@ function main() {
   ];
 
   var saws = [
-    {
-      x: -41,
-      y: -38,
+    { // верхняя пила
+      x: 0,
+      y: -39,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
+      type: 1
     },
-    {
+    { // правая пила
       x: 872,
       y: -40,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
+      type: 2
     },
-    {
+    { // левая пила
       x: -38,
       y: 480,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
+      type: 2
     },
-    {
+    { // нижняя пила
       x: 872,
       y: 480,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
+      type: 1
     },
    ];
 
@@ -323,6 +329,32 @@ function main() {
     });
   }
 
+  function updateSaw() {
+    saws.forEach((saw) => {
+      if (saw.y >= 480 && saw.type === 2) {
+        saw.y = -40
+        return saw.y -= 5
+      }
+
+      if (saw.type === 2) {
+        return saw.y += 5
+      }
+
+      if (saw.x >= 872) {
+        return saw.x = 0
+      }
+      saw.x += 5
+
+      if (
+        saw.x < 0 ||
+        saw.x > canvas.width ||
+        saw.y < 0 ||
+        saw.y > canvas.height
+      ) {
+      }
+    });
+  }
+
   function checkCollisionWithArmor() {
     armors.forEach((armor1) => {
       if (
@@ -333,19 +365,6 @@ function main() {
       ) {
         if (armor <= 100) {armor += 15}
         resetArrow(armor1);
-      }
-    });
-  }
-
-
-  function updateSaw() {
-    saws.forEach((saw) => {
-      if (
-        saw.x < 0 ||
-        saw.x > canvas.width ||
-        saw.y < 0 ||
-        saw.y > canvas.height
-      ) {
       }
     });
   }
@@ -364,8 +383,6 @@ function main() {
     });
   }
 
-
-  // Функция для проверки столкновения игрока с каждой стенкой
   function checkCollisionWithWalls() {
     for (var i = 0; i < walls.length; i++) {
       var wall = walls[i];
@@ -377,8 +394,6 @@ function main() {
     }
   }
   
-
-  // Функция для проверки столкновения игрока со стрелой
   function checkCollisionWithPlayer() {
     arrows.forEach((arrow) => {
       if (

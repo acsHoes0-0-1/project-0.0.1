@@ -106,7 +106,16 @@
     }
 
   </style>
+ <style>
+  .modal-sheet .modal-dialog {
+  width: 380px;
+  transition: bottom .75s ease-in-out;
+}
+.modal-sheet .modal-footer {
+  padding-bottom: 2rem;
+}
 
+ </style>
     
     <!-- Custom styles for this template -->
     <link href="./assets/css/main.css" rel="stylesheet">
@@ -168,8 +177,21 @@
 
   <main>
     <div class="container my-5">
+      <div class="modal fade modal-sheet bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="gameOver">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+              <h5 class="mb-4">Игра окончена</h5>
+              <p class="mb-0">Вы проиграли, но держались достойно <span id="playTime"></span></p>
+            </div>
+            <div class="modal-footer p-0">
+              <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 w-100" data-bs-dismiss="modal">Продолжить</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <canvas id="gameCanvas" width="913" height="520"></canvas>
-      <div class="modal fade" id="gameOver" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="gameOver" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -177,14 +199,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Вы проиграли :(
+                Вы проиграли, но держались достойно <span id="playTime"></span><br/>
+                Попробуйте продержаться дольше! ;)
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>
               </div>
             </div>
           </div>
-      </div>
+      </div> -->
     <div class="alert alert-light mx-auto" role="alert">
         <div class="d-flex flex-row gap-2">
           <div id="healthBar">HP: 100%</div> | <div id="armorBar">Armor: 0%</div>
