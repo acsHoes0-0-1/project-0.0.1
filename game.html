@@ -185,37 +185,21 @@
             </div>
           </div>
       </div>
-      <div class="modal fade" id="changeSkin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Выбор Персонажа</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(1)">Основной</button>
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(2)">Солнце</button>
-              <!-- <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(3)">Начать игру</button>
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(4)">Начать игру</button>
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(5)">Начать игру</button>
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(6)">Начать игру</button>
-              <button type="button" class="btn btn-primary alert-light mid" id="" onclick="changeSkin(7)">Начать игру</button> -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-          </div>
-        </div>
-    </div>
     <div class="alert alert-light mx-auto" role="alert">
         <div class="d-flex flex-row gap-2">
           <div id="healthBar">HP: 100%</div> | <div id="armorBar">Armor: 0%</div>
         </div>
       </div>
       <button type="button" class="btn btn-primary alert-light mid" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeSkin">
-        Выбор Скина
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="changeSkinButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Выбор персонажа
       </button>
+      <ul class="dropdown-menu">
+        <div class="d-flex px-2 gap-1">
+          <li><button type="button" class="btn" id="" onclick="changeSkin(1)"><img src="custom/king-down5.png" width="40" height="40"/></button></li>
+          <li><button type="button" class="btn" id="" onclick="changeSkin(2)"><img src="custom/down3.png" width="40" height="40"/></button></li>
+        </div>
+      </ul>
     </div>
   </main>
   <script src="./assets/js/index.js"></script>

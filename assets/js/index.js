@@ -5,6 +5,7 @@ let context = canvas.getContext("2d");
 let audio = document.getElementById("noise");
 let playButton = document.getElementById("playButton");
 let playGameButton = document.getElementById("playGameButton");
+let changeSkinButton = document.getElementById("changeSkinButton");
 let stopwatchInterval;
 let milliseconds = 0;
 let seconds = 0
@@ -16,6 +17,23 @@ const startGameFunction = () => {
   playStatus = true;
   main();
 };
+
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    let img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+let game_skins = {
+  1: loadImage("custom/king-down5.png"),
+  2: loadImage("custom/down3.png")
+}
+
+let player_skin = loadImage("custom/king-down5.png");
 
 function main() {
   // Получение ссылки на холст
@@ -71,16 +89,6 @@ function main() {
     left: new Image(),
     right: new Image(),
   };
-
-  function loadImage(src) {
-    return new Promise((resolve, reject) => {
-      let img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
-  }
-
   // // Загрузка изображений модели
   // playerImages.up.src = "custom/king-up5.png"; // Замените "custom/skeleton-up2.png" на путь к изображению модели, смотрящей вверх
   // playerImages.down.src = "custom/king-down5.png"; // Замените "custom/skeleton-down2.png" на путь к изображению модели, смотрящей вниз
@@ -405,7 +413,9 @@ function main() {
     console.log(health, armor);
     if (playStatus === true) {
       playGameButton.setAttribute("disabled", true);
+      changeSkinButton.setAttribute("disabled", true);
     } else {
+      changeSkinButton.removeAttribute("disabled");
       return playGameButton.removeAttribute("disabled");
     }
 
@@ -641,9 +651,9 @@ function main() {
 
   
   let test = setInterval(update, 1000 / 60);
-
+ 
   Promise.all([
-    loadImage("custom/king-down5.png"),
+    player_skin,
     loadImage("custom/ghost.png"),
     loadImage("custom/heal.png"),
     loadImage("custom/armor.png"),
@@ -701,5 +711,5 @@ function displayTime() {
 }
 
 function changeSkin(id) {
-  
+  player_skin = game_skins[id]
 }
