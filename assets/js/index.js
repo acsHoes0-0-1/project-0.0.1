@@ -89,12 +89,20 @@ function main() {
 
   // Создание объекта анимации стрелы
   var arrowAnimation = new Image();
+  var healAnimation = new Image();
+  var armorAnimation = new Image();
   // arrowAnimation.src = "custom/2345.gif"; // Замените "custom/re.gif" на путь к анимированному GIF-файлу стрелы
 
   function updateStats() {
     var healthBar = document.getElementById("healthBar");
     var armorBar = document.getElementById("armorBar");
 
+    if (health <= 1) {
+      return healthBar.textContent = `HP: 0%`;
+    }
+    if (armor <= 1) {
+      return armorBar.textContent = `Armor: 0%`;
+    }
     healthBar.textContent = `HP: ${health}%`;
     armorBar.textContent = `Armor: ${armor}%`;
   }
@@ -170,6 +178,28 @@ function main() {
     },
   ];
 
+  var heal = [
+    {
+      x: 0,
+      y: 0,
+      width: 20,
+      height: 20,
+      speed: 8,
+      direction: Math.PI,
+    },
+   ];
+
+   var armors = [
+    {
+      x: 0,
+      y: 0,
+      width: 20,
+      height: 20,
+      speed: 8,
+      direction: Math.PI,
+    },
+   ];
+
   function resetArrow(arrow) {
     var randomSide = Math.floor(Math.random() * 4);
 
@@ -216,6 +246,55 @@ function main() {
       }
     });
   }
+
+  function updateHeal() {
+    heal.forEach((heal) => {
+      heal.x += Math.cos(heal.direction) * heal.speed;
+      heal.y += Math.sin(heal.direction) * heal.speed;
+
+      if (
+        heal.x < 0 ||
+        heal.x > canvas.width ||
+        heal.y < 0 ||
+        heal.y > canvas.height
+      ) {
+        resetArrow(heal);
+      }
+    });
+  }
+
+
+  function updateArmor() {
+    armors.forEach((armor) => {
+      armor.x += Math.cos(armor.direction) * armor.speed;
+      armor.y += Math.sin(armor.direction) * armor.speed;
+
+      if (
+        armor.x < 0 ||
+        armor.x > canvas.width ||
+        armor.y < 0 ||
+        armor.y > canvas.height
+      ) {
+        resetArrow(armor);
+      }
+    });
+  }
+
+  function checkCollisionWithArmor() {
+    armors.forEach((armor1) => {
+      if (
+        armor1.x < playerX + playerWidth &&
+        armor1.x + armor1.width > playerX &&
+        armor1.y < playerY + playerHeight &&
+        armor1.y + armor1.height > playerY
+      ) {
+        if (armor <= 100) {armor += 10}
+        resetArrow(armor1);
+      }
+    });
+  }
+
+
   // Функция для проверки столкновения игрока с каждой стенкой
   function checkCollisionWithWalls() {
     for (var i = 0; i < walls.length; i++) {
@@ -227,6 +306,7 @@ function main() {
         playerY + playerHeight > wall.y;
     }
   }
+  
 
   // Функция для проверки столкновения игрока со стрелой
   function checkCollisionWithPlayer() {
@@ -243,6 +323,21 @@ function main() {
       }
     });
   }
+
+  function checkCollisionWithHeal() {
+    heal.forEach((heal) => {
+      if (
+        heal.x < playerX + playerWidth &&
+        heal.x + heal.width > playerX &&
+        heal.y < playerY + playerHeight &&
+        heal.y + heal.height > playerY
+      ) {
+        if (health <= 100) {health += 15}
+        resetArrow(heal);
+      }
+    });
+  }
+
   // Обновление игры и отрисовка игрока и стрелы
   function update() {
     if (playStatus === true) {
@@ -295,6 +390,10 @@ function main() {
 
     // Проверка столкновения с стрелой
     checkCollisionWithPlayer();
+
+    checkCollisionWithHeal();
+
+    checkCollisionWithArmor();
 
     // Очистка холста
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -422,8 +521,32 @@ function main() {
       );
     }
 
+    for (var i = 0; i < heal.length; i++) {
+      var hea = heal[i];
+      context.drawImage(
+        healAnimation,
+        hea.x,
+        hea.y,
+        hea.width,
+        hea.height
+      );
+    }
+
+    for (var i = 0; i < armors.length; i++) {
+      var ar = armors[i];
+      context.drawImage(
+        armorAnimation,
+        ar.x,
+        ar.y,
+        ar.width,
+        ar.height
+      );
+    }
+
     // Обновление координат стрелы
     updateArrows();
+    updateHeal();
+    updateArmor();
 
     // Повторный вызов функции обновления для создания анимации
     // requestAnimationFrame(update);
@@ -440,12 +563,16 @@ function main() {
   Promise.all([
     loadImage("custom/king-down5.png"),
     loadImage("custom/ghost.png"),
-  ]).then(([skin, arrow]) => {
+    loadImage("custom/heal.png"),
+    loadImage("custom/armor.png")
+  ]).then(([skin, arrow, heal, armor]) => {
     playerImages.up = skin;
     playerImages.down = skin;
     playerImages.left = skin;
     playerImages.right = skin;
     arrowAnimation = arrow;
+    healAnimation = heal;
+    armorAnimation = armor;
     update();
   });
 }
