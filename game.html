@@ -58,6 +58,10 @@
         vertical-align: -.125em;
         fill: currentColor;
       }
+      
+      .mid {
+        display: flex-end;
+      }
 
       .nav-scroller {
         position: relative;
@@ -80,7 +84,7 @@
       .btn-bd-primary {
         --bd-violet-bg: #712cf9;
         --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
+          
         --bs-btn-font-weight: 600;
         --bs-btn-color: var(--bs-white);
         --bs-btn-bg: var(--bd-violet-bg);
@@ -96,6 +100,17 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+      #stopwatch {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    #stopwatch span {
+      display: inline-block;
+      width: 60px;
+    }
+
     </style>
 
     
@@ -144,17 +159,22 @@
 <div class="container py-3">
   <header>
     <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
-        <span class="fs-4">PureReflex</span>
-      </a>
+      <div class="me-md-auto">
+        <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+          <span class="fs-4"><img src="custom/14124.png" alt="gameLogo" width="400" height="100"></span>
+        </a>
+      </div>
+      <div id="stopwatch">
+        <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="milliseconds">00</span>
+      </div>
       <audio id="noise" src="music/noise.mp3" loop></audio>
       <div id="playButtonWrapper"> <button id="playButton">🔊</button> </div> 
     </div>
-  </header>
+  </header> 
 
   <main>
     <div class="container my-5">
-      <canvas id="gameCanvas" width="930" height="520"></canvas>
+      <canvas id="gameCanvas" width="913" height="520"></canvas>
       <div class="modal fade" id="gameOver" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -171,12 +191,12 @@
             </div>
           </div>
       </div>
-            <div class="alert alert-light mx-auto" role="alert">
+    <div class="alert alert-light mx-auto" role="alert">
         <div class="d-flex flex-row gap-2">
           <div id="healthBar">HP: 100%</div> | <div id="armorBar">Armor: 0%</div>
         </div>
       </div>
-      <button type="button" class="btn btn-primary" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
+      <button type="button" class="btn btn-primary alert-light mid" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
     </div>
   </main>
   <script src="./assets/js/index.js"></script>

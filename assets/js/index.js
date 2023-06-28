@@ -5,6 +5,10 @@ let context = canvas.getContext("2d");
 let audio = document.getElementById("noise");
 let playButton = document.getElementById("playButton");
 let playGameButton = document.getElementById("playGameButton");
+let stopwatchInterval;
+let milliseconds = 0;
+let seconds = 0
+let minutes = 0;
 
 let playStatus = false;
 
@@ -16,14 +20,16 @@ const startGameFunction = () => {
 function main() {
   // Получение ссылки на холст
   let health = 100; // Начальное значение HP
-  let armor = 0; // Начальное значение брони
+  let armor = 50; // Начальное значение брони
   audio.volume = 0.1; // музыка
-
+  resetStopwatch();
+  startStopwatch();
   hideGameOver();
   // playGameButton.setAttribute('disabled', true);
 
   function showGameOver() {
     myModal.show();
+    stopStopwatch();
     return update();
   }
 
@@ -146,6 +152,22 @@ function main() {
       speed: 5,
       direction: Math.PI / 3,
     },
+    {
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 4,
+    },
+    {
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 5,
+    },
   ];
 
   function resetArrow(arrow) {
@@ -215,7 +237,8 @@ function main() {
         arrow.y < playerY + playerHeight &&
         arrow.y + arrow.height > playerY
       ) {
-        health -= 100;
+        if (armor <= 0) {health -= 50}
+        else {armor -= 25}
         resetArrow(arrow);
       }
     });
@@ -266,6 +289,7 @@ function main() {
       playerDirection = "right";
     }
 
+
     // Проверка столкновений со стенками
     checkCollisionWithWalls();
 
@@ -315,6 +339,78 @@ function main() {
         break;
     }
 
+    if (seconds === 5 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 6,
+    },
+    {
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 7,
+    },)}
+
+    if (seconds === 10 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 8,
+    },)}
+
+    if (seconds === 15 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 9,
+    },)}
+
+    if (seconds === 20 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 6,
+    },)}
+
+    if (seconds === 40 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 6,
+    },)}
+
+    if (seconds === 50 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 6,
+    },)}
+
+    if (seconds === 59 && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: 5,
+      direction: Math.PI / 6,
+    },)}
+
+
     for (var i = 0; i < arrows.length; i++) {
       var arrow = arrows[i];
       context.drawImage(
@@ -338,6 +434,7 @@ function main() {
 
   // Настройка setInterval для вызова функции update каждые 1000/60 миллисекунд (примерно 60 кадров в секунду)
 
+  
   let test = setInterval(update, 1000 / 60);
 
   Promise.all([
@@ -353,3 +450,41 @@ function main() {
   });
 }
 // window.onload = main;
+
+function startStopwatch() {
+  stopwatchInterval = setInterval(function() {
+    milliseconds++;
+    if (milliseconds === 100) {
+      milliseconds = 0;
+      seconds++;
+    }
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+    }
+
+    displayTime();
+  }, 10);
+}
+
+function stopStopwatch() {
+  clearInterval(stopwatchInterval);
+}
+
+function resetStopwatch() {
+  clearInterval(stopwatchInterval);
+  milliseconds = 0;
+  seconds = 0;
+  minutes = 0;
+  displayTime();
+}
+
+function displayTime() {
+  var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+  var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+  var displayMilliseconds = milliseconds < 10 ? "0" + milliseconds : milliseconds;
+
+  document.querySelector('#minutes').textContent = displayMinutes;
+  document.querySelector('#seconds').textContent = displaySeconds;
+  document.querySelector('#milliseconds').textContent = displayMilliseconds;
+}
