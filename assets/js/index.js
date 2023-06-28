@@ -91,6 +91,7 @@ function main() {
   var arrowAnimation = new Image();
   var healAnimation = new Image();
   var armorAnimation = new Image();
+  var sawAnimation = new Image();
   // arrowAnimation.src = "custom/2345.gif"; // Замените "custom/re.gif" на путь к анимированному GIF-файлу стрелы
 
   function updateStats() {
@@ -106,7 +107,7 @@ function main() {
   var playerY = canvas.height / 2;
   var playerWidth = 50;
   var playerHeight = 50;
-  var playerSpeed = 5;
+  var playerSpeed = 7;
   var playerDirection = "down"; // Начальное направление взгляда модели
 
   // Массив для хранения текущих нажатых клавиш
@@ -123,7 +124,7 @@ function main() {
 
   // Определение стенок в игре
   var walls = [
-    { x: 0, y: 0, width: 0, height: 750 }, // Левая стенка
+    { x: -1, y: 0, width: 0, height: 750 }, // Левая стенка
     { x: 1, y: 1, width: 1890, height: 1 }, // Верхняя стенка
     { x: 1, y: 730, width: 1, height: 1 }, // Нижняя стенка
     { x: 1870, y: 0, width: 0, height: 750 }, // Правая стенка
@@ -171,6 +172,41 @@ function main() {
       direction: Math.PI / 5,
     },
   ];
+
+  var saws = [
+    {
+      x: -41,
+      y: -38,
+      width: 80,
+      height: 80,
+      speed: 0,
+      direction: Math.PI,
+    },
+    {
+      x: 872,
+      y: -40,
+      width: 80,
+      height: 80,
+      speed: 0,
+      direction: Math.PI,
+    },
+    {
+      x: -38,
+      y: 480,
+      width: 80,
+      height: 80,
+      speed: 0,
+      direction: Math.PI,
+    },
+    {
+      x: 872,
+      y: 480,
+      width: 80,
+      height: 80,
+      speed: 0,
+      direction: Math.PI,
+    },
+   ];
 
   var heal = [
     {
@@ -289,6 +325,33 @@ function main() {
   }
 
 
+  function updateSaw() {
+    saws.forEach((saw) => {
+      if (
+        saw.x < 0 ||
+        saw.x > canvas.width ||
+        saw.y < 0 ||
+        saw.y > canvas.height
+      ) {
+      }
+    });
+  }
+
+  function checkCollisionWithSaws() {
+    saws.forEach((saw) => {
+      if (
+        saw.x < playerX + playerWidth &&
+        saw.x + saw.width > playerX &&
+        saw.y < playerY + playerHeight &&
+        saw.y + saw.height > playerY
+      ) {
+        if (armor >= 100) {armor -= 15}
+        else {health -= 1}
+      }
+    });
+  }
+
+
   // Функция для проверки столкновения игрока с каждой стенкой
   function checkCollisionWithWalls() {
     for (var i = 0; i < walls.length; i++) {
@@ -393,6 +456,8 @@ function main() {
 
     checkCollisionWithHeal();
 
+    checkCollisionWithSaws();
+
     checkCollisionWithArmor();
 
     // Очистка холста
@@ -449,7 +514,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: randomInteger(7, 12),
+      speed: randomInteger(7, 10),
       direction: Math.PI / 6,
     },
     {
@@ -549,9 +614,21 @@ function main() {
       );
     }
 
+    for (var i = 0; i < saws.length; i++) {
+      var saw = saws[i];
+      context.drawImage(
+        sawAnimation,
+        saw.x,
+        saw.y,
+        saw.width,
+        saw.height
+      );
+    }
+
     // Обновление координат стрелы
     updateArrows();
-    updateHeal();
+    updateHeal()
+    updateSaw();
     updateArmor();
 
     // Повторный вызов функции обновления для создания анимации
@@ -569,8 +646,9 @@ function main() {
     loadImage("custom/king-down5.png"),
     loadImage("custom/ghost.png"),
     loadImage("custom/heal.png"),
-    loadImage("custom/armor.png")
-  ]).then(([skin, arrow, heal, armor]) => {
+    loadImage("custom/armor.png"),
+    loadImage("custom/buble.png")
+  ]).then(([skin, arrow, heal, armor, buble]) => {
     playerImages.up = skin;
     playerImages.down = skin;
     playerImages.left = skin;
@@ -578,6 +656,7 @@ function main() {
     arrowAnimation = arrow;
     healAnimation = heal;
     armorAnimation = armor;
+    sawAnimation = buble;
     update();
   });
 }
@@ -619,4 +698,8 @@ function displayTime() {
   document.querySelector('#minutes').textContent = displayMinutes;
   document.querySelector('#seconds').textContent = displaySeconds;
   document.querySelector('#milliseconds').textContent = displayMilliseconds;
+}
+
+function changeSkin(id) {
+  
 }
