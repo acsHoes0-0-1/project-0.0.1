@@ -97,14 +97,8 @@ function main() {
     var healthBar = document.getElementById("healthBar");
     var armorBar = document.getElementById("armorBar");
 
-    if (health <= 1) {
-      return healthBar.textContent = `HP: 0%`;
-    }
-    if (armor <= 1) {
-      return armorBar.textContent = `Armor: 0%`;
-    }
-    healthBar.textContent = `HP: ${health}%`;
-    armorBar.textContent = `Armor: ${armor}%`;
+    healthBar.textContent = `HP: ${health <= 0 ? 0 : health}%`;
+    armorBar.textContent = `Armor: ${armor <= 0 ? 0 : armor}%`;
   }
 
   // Начальные координаты и направление игрока
@@ -288,7 +282,7 @@ function main() {
         armor1.y < playerY + playerHeight &&
         armor1.y + armor1.height > playerY
       ) {
-        if (armor <= 100) {armor += 10}
+        if (armor <= 100) {armor += 15}
         resetArrow(armor1);
       }
     });
@@ -317,8 +311,12 @@ function main() {
         arrow.y < playerY + playerHeight &&
         arrow.y + arrow.height > playerY
       ) {
-        if (armor <= 0) {health -= 50}
-        else {armor -= 25}
+        if (armor <= 15) {
+          health -= 25
+          armor -= 15
+        } else {
+          armor -= 25
+        }
         resetArrow(arrow);
       }
     });
@@ -332,7 +330,7 @@ function main() {
         heal.y < playerY + playerHeight &&
         heal.y + heal.height > playerY
       ) {
-        if (health <= 100) {health += 15}
+        if (health <= 100) {health += 20}
         resetArrow(heal);
       }
     });
@@ -340,6 +338,8 @@ function main() {
 
   // Обновление игры и отрисовка игрока и стрелы
   function update() {
+    updateStats();
+    console.log(health, armor);
     if (playStatus === true) {
       playGameButton.setAttribute("disabled", true);
     } else {
@@ -438,12 +438,18 @@ function main() {
         break;
     }
 
+    function randomInteger(min, max) {
+      // получить случайное число от (min-0.5) до (max+0.5)
+      let rand = min - 0.5 + Math.random() * (max - min + 1);
+      return Math.round(rand);
+    }
+
     if (seconds === 5 && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 6,
     },
     {
@@ -451,7 +457,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 7,
     },)}
 
@@ -460,7 +466,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 8,
     },)}
 
@@ -469,7 +475,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 9,
     },)}
 
@@ -478,7 +484,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 6,
     },)}
 
@@ -487,7 +493,7 @@ function main() {
       y: 0,
       width: 40,
       height: 40,
-      speed: 5,
+      speed: randomInteger(7, 12),
       direction: Math.PI / 6,
     },)}
 
@@ -550,7 +556,6 @@ function main() {
 
     // Повторный вызов функции обновления для создания анимации
     // requestAnimationFrame(update);
-    updateStats();
   }
 
   update();
