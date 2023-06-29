@@ -189,42 +189,6 @@ function main() {
   ];
 
   var saws = [
-    { // верхняя пила
-      x: 0,
-      y: -39,
-      width: 80,
-      height: 80,
-      speed: 0,
-      direction: Math.PI,
-      type: 1
-    },
-    { // правая пила
-      x: 875,
-      y: -39,
-      width: 80,
-      height: 80,
-      speed: 0,
-      direction: Math.PI,
-      type: 2
-    },
-    { // левая пила
-      x: -40,
-      y: 486,
-      width: 80,
-      height: 80,
-      speed: 0,
-      direction: Math.PI,
-      type: 3
-    },
-    { // нижняя пила
-      x: 875,
-      y: 481,
-      width: 80,
-      height: 80,
-      speed: 0,
-      direction: Math.PI,
-      type: 4
-    },
    ];
 
   var heal = [
@@ -578,25 +542,17 @@ function main() {
       let rand = min - 0.5 + Math.random() * (max - min + 1);
       return Math.round(rand);
     }
+    function round1() {
+    // if (seconds === randomInteger(0, 5) && milliseconds === 0) {arrows.push({
+    //   x: 0,
+    //   y: 0,
+    //   width: 40,
+    //   height: 40,
+    //   speed: randomInteger(7, 10),
+    //   direction: Math.PI / 6,
+    // },)}
 
-    if (seconds === 5 && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 10),
-      direction: Math.PI / 6,
-    },
-    {
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
-      direction: Math.PI / 7,
-    },)}
-
-    if (seconds === 10 && milliseconds === 0) {arrows.push({
+    if (seconds === randomInteger(5, 10) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
       width: 40,
@@ -605,25 +561,16 @@ function main() {
       direction: Math.PI / 8,
     },)}
 
-    if (seconds === 15 && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
-      direction: Math.PI / 9,
-    },)}
+    // if (seconds === randomInteger(10, 15) && milliseconds === 0) {arrows.push({
+    //   x: 0,
+    //   y: 0,
+    //   width: 40,
+    //   height: 40,
+    //   speed: randomInteger(7, 12),
+    //   direction: Math.PI / 9,
+    // },)}
 
-    if (seconds === 20 && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
-      direction: Math.PI / 6,
-    },)}
-
-    if (seconds === 40 && milliseconds === 0) {arrows.push({
+    if (seconds === randomInteger(20, 30) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
       width: 40,
@@ -632,7 +579,16 @@ function main() {
       direction: Math.PI / 6,
     },)}
 
-    if (seconds === 50 && milliseconds === 0) {arrows.push({
+    if (seconds === randomInteger(30,40) && milliseconds === 0) {arrows.push({
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      speed: randomInteger(7, 12),
+      direction: Math.PI / 6,
+    },)}
+  }
+    if (seconds === randomInteger(40, 50) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
       width: 40,
@@ -641,7 +597,7 @@ function main() {
       direction: Math.PI / 6,
     },)}
 
-    if (seconds === 59 && milliseconds === 0) {arrows.push({
+    if (seconds === randomInteger(50, 59) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
       width: 40,
@@ -649,6 +605,58 @@ function main() {
       speed: 5,
       direction: Math.PI / 6,
     },)}
+
+  //   if (seconds === 3 && milliseconds === 0) {
+  //     saws.push( { // верхняя пила
+  //       x: 0,
+  //       y: -39,
+  //       width: 80,
+  //       height: 80,
+  //       speed: 0,
+  //       direction: Math.PI,
+  //       type: 1
+  //     },
+  //   )
+  // }
+
+  if (seconds === randomInteger(5, 10) && milliseconds === 0) {
+    saws.push( { // правая пила
+      x: 875,
+      y: -39,
+      width: 80,
+      height: 80,
+      speed: 0,
+      direction: Math.PI,
+      type: 2
+    },
+  )
+}
+
+if (seconds === randomInteger(15,25) && milliseconds === 0) {
+  saws.push( { // левая пила
+    x: -40,
+    y: 486,
+    width: 80,
+    height: 80,
+    speed: 0,
+    direction: Math.PI,
+    type: 3
+  },
+)
+}
+
+if (seconds === randomInteger(30, 40) && milliseconds === 0) {
+  saws.push( { // нижняя пила
+    x: 875,
+    y: 481,
+    width: 80,
+    height: 80,
+    speed: 0,
+    direction: Math.PI,
+    type: 4
+  },
+)
+}
 
 
     for (var i = 0; i < arrows.length; i++) {
@@ -684,6 +692,7 @@ function main() {
       );
     }
 
+  if (saws.length >= 1) {
     for (var i = 0; i < saws.length; i++) {
       var saw = saws[i];
       context.drawImage(
@@ -694,12 +703,15 @@ function main() {
         saw.height
       );
     }
+  }
+
 
     // Обновление координат стрелы
     updateArrows();
-    updateHeal()
+    updateHeal();
     updateSaw();
     updateArmor();
+    round1();
 
     // Повторный вызов функции обновления для создания анимации
     // requestAnimationFrame(update);
