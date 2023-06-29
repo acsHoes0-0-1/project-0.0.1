@@ -433,6 +433,8 @@ function main() {
 
   // Обновление игры и отрисовка игрока и стрелы
   function update() {
+    console.log(saws.length)
+    console.log(saws)
     updateStats();
     if (playStatus === true) {
       playGameButton.setAttribute("disabled", true);
@@ -551,41 +553,37 @@ function main() {
     //   direction: Math.PI / 6,
     // },)}
 
-    if (seconds === randomInteger(5, 10) && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 60,
-      height: 30,
-      speed: randomInteger(7, 10),
-      direction: Math.PI / 8,
-    },)}
+    if (seconds === randomInteger(5, 10) && milliseconds === 0) {
+      arrows.push({
+        x: 0,
+        y: 0,
+        width: 60,
+        height: 30,
+        speed: randomInteger(7, 10),
+        direction: Math.PI / 8,
+      },)
+    }
 
-    // if (seconds === randomInteger(10, 15) && milliseconds === 0) {arrows.push({
-    //   x: 0,
-    //   y: 0,
-    //   width: 40,
-    //   height: 40,
-    //   speed: randomInteger(7, 12),
-    //   direction: Math.PI / 9,
-    // },)}
+    if (seconds === randomInteger(20, 30) && milliseconds === 0) {
+      arrows.push({
+        x: 0,
+        y: 0,
+        width: 60,
+        height: 30,
+        speed: randomInteger(7, 10),
+        direction: Math.PI / 6,
+      },)
+    }
 
-    if (seconds === randomInteger(20, 30) && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 60,
-      height: 30,
-      speed: randomInteger(7, 10),
-      direction: Math.PI / 6,
-    },)}
-
-    if (seconds === randomInteger(30,40) && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 60,
-      height: 30,
-      speed: randomInteger(7, 11),
-      direction: Math.PI / 6,
-    },)}
+    if (seconds === randomInteger(30,40) && milliseconds === 0) {
+      arrows.push({
+        x: 0,
+        y: 0,
+        width: 60,
+        height: 30,
+        speed: randomInteger(7, 11),
+        direction: Math.PI / 6,
+      },)}
   }
     if (seconds === randomInteger(40, 50) && milliseconds === 0) {arrows.push({
       x: 0,
@@ -595,8 +593,8 @@ function main() {
       speed: randomInteger(7, 10),
       direction: Math.PI / 6,
     },)}
-
-    if (minutes === 0 && seconds === 0 && milliseconds === 0) {
+    
+    if (minutes === 0 && seconds === 2 && milliseconds === 0) {
       saws.push( { // верхняя пила
         x: 0,
         y: -39,
@@ -607,47 +605,46 @@ function main() {
         type: 1
       },
     )
-  }
+    }
 
-  if (minutes === 0 && seconds === 45 && milliseconds === 0) {
-    saws.push( { // правая пила
-      x: 875,
-      y: -39,
-      width: 80,
-      height: 80,
-      speed: 0,
-      direction: Math.PI,
-      type: 2
-    },
-  )
-}
+    // if (minutes === 0 && seconds === 45 && milliseconds === 0) {
+    //   saws.push( { // правая пила
+    //     x: 875,
+    //     y: -39,
+    //     width: 80,
+    //     height: 80,
+    //     speed: 0,
+    //     direction: Math.PI,
+    //     type: 2
+    //   },
+    // )
+    // }
 
-if ( minutes === 1 && seconds === 10 && milliseconds === 0) {
-  saws.push( { // левая пила
-    x: -40,
-    y: 486,
-    width: 80,
-    height: 80,
-    speed: 0,
-    direction: Math.PI,
-    type: 3
-  },
-)
-}
+    // if ( minutes === 1 && seconds === 10 && milliseconds === 0) {
+    //   saws.push( { // левая пила
+    //     x: -40,
+    //     y: 486,
+    //     width: 80,
+    //     height: 80,
+    //     speed: 0,
+    //     direction: Math.PI,
+    //     type: 3
+    //   },
+    // )
+    // }
 
-if (minutes === 0 && seconds === 26  && milliseconds === 0) {
-  saws.push( { // нижняя пила
-    x: 875,
-    y: 481,
-    width: 80,
-    height: 80,
-    speed: 0,
-    direction: Math.PI,
-    type: 4
-  },
-)
-}
-
+    // if (minutes === 0 && seconds === 26  && milliseconds === 0) {
+    //   saws.push( { // нижняя пила
+    //     x: 875,
+    //     y: 481,
+    //     width: 80,
+    //     height: 80,
+    //     speed: 0,
+    //     direction: Math.PI,
+    //     type: 4
+    //   },
+    // )
+    // }
 
     for (var i = 0; i < arrows.length; i++) {
       var arrow = arrows[i];
@@ -682,18 +679,18 @@ if (minutes === 0 && seconds === 26  && milliseconds === 0) {
       );
     }
 
-  if (saws.length >= 1) {
-    for (var i = 1; i < saws.length; i++) {
-      var saw = saws[i];
-      context.drawImage(
-        sawAnimation,
-        saw.x,
-        saw.y,
-        saw.width,
-        saw.height
-      );
+    if (saws.length >= 1) {
+      for (let i of saws) {
+        var saw = i;
+        context.drawImage(
+          sawAnimation,
+          saw.x,
+          saw.y,
+          saw.width,
+          saw.height
+        );
+      }
     }
-  }
 
 
     // Обновление координат стрелы
