@@ -199,8 +199,8 @@ function main() {
       type: 1
     },
     { // правая пила
-      x: 872,
-      y: -40,
+      x: 875,
+      y: -39,
       width: 80,
       height: 80,
       speed: 0,
@@ -208,22 +208,22 @@ function main() {
       type: 2
     },
     { // левая пила
-      x: -38,
-      y: 480,
+      x: -40,
+      y: 486,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
-      type: 2
+      type: 3
     },
     { // нижняя пила
-      x: 872,
-      y: 480,
+      x: 875,
+      y: 481,
       width: 80,
       height: 80,
       speed: 0,
       direction: Math.PI,
-      type: 1
+      type: 4
     },
    ];
 
@@ -329,21 +329,62 @@ function main() {
     });
   }
 
+
+// const upleft x = 0;
+            //  y =-41
+// const upright = 872;
+// const leftbottom = -40;
+// const rightbottom = 480;   
+
   function updateSaw() {
     saws.forEach((saw) => {
-      if (saw.y >= 480 && saw.type === 2) {
-        saw.y = -40
-        return saw.y -= 5
+      if (saw.type === 1) {
+        if (saw.x <= 875 && saw.y === -39) {
+          saw.x += 5;
+        } else if (saw.x === 880 && saw.y <= 481) {
+          saw.y += 5;
+        } else if (saw.x >= -36 && saw.y === 486) {
+          saw.x -= 5
+        } else if (saw.x !== -35 && saw.y >= -40) {
+          saw.y -= 5
+        }
       }
 
       if (saw.type === 2) {
-        return saw.y += 5
+        if (saw.x === 875 && saw.y <= 480) {
+          saw.y += 5;
+        } else if (saw.x >= -39 && saw.y === 481) {
+          saw.x -= 5;
+        } else if (saw.x === -40 && saw.y >= -36) {
+          saw.y -= 5;
+        } else if (saw.x <= 872 && saw.y === -39) {
+          saw.x += 5
+        }
       }
 
-      if (saw.x >= 872) {
-        return saw.x = 0
-      }
-      saw.x += 5
+        if (saw.type === 3) {
+          if (saw.x === -40 && saw.y >= -36) {
+            saw.y -= 5;
+          } else if (saw.x <= 870 && saw.y === -39) {
+            saw.x += 5;
+          } else if (saw.x === 875 && saw.y <= 476) {
+            saw.y += 5;
+          } else if (saw.x >= -39 && saw.y === 481) {
+            saw.x -= 5;
+          }
+        }
+        if (saw.type === 4) {
+          if (saw.x >= -39 && saw.y === 481) {
+            saw.x -= 5;
+          } else if (saw.x === -40 && saw.y >= -36) {
+            saw.y -= 5;
+          } else if (saw.x <= 870 && saw.y === -39) {
+            saw.x += 5;
+           } else if (saw.x === 875 && saw.y <= 476) {
+            saw.y += 5;
+          } 
+          }
+        
 
       if (
         saw.x < 0 ||
@@ -430,7 +471,6 @@ function main() {
   // Обновление игры и отрисовка игрока и стрелы
   function update() {
     updateStats();
-    console.log(health, armor);
     if (playStatus === true) {
       playGameButton.setAttribute("disabled", true);
       changeSkinButton.setAttribute("disabled", true);
