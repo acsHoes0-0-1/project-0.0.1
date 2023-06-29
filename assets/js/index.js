@@ -149,40 +149,40 @@ function main() {
     {
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
+      width: 60,
+      height: 30,
       speed: 5,
       direction: Math.PI,
     },
     {
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
+      width: 60,
+      height: 30,
       speed: 5,
       direction: Math.PI / 2,
     },
     {
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
+      width: 60,
+      height: 30,
       speed: 5,
       direction: Math.PI / 3,
     },
     {
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
+      width: 60,
+      height: 30,
       speed: 5,
       direction: Math.PI / 4,
     },
     {
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
+      width: 60,
+      height: 30,
       speed: 5,
       direction: Math.PI / 5,
     },
@@ -555,9 +555,9 @@ function main() {
     if (seconds === randomInteger(5, 10) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
+      width: 60,
+      height: 30,
+      speed: randomInteger(7, 10),
       direction: Math.PI / 8,
     },)}
 
@@ -573,53 +573,44 @@ function main() {
     if (seconds === randomInteger(20, 30) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
+      width: 60,
+      height: 30,
+      speed: randomInteger(7, 10),
       direction: Math.PI / 6,
     },)}
 
     if (seconds === randomInteger(30,40) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
-      speed: randomInteger(7, 12),
+      width: 60,
+      height: 30,
+      speed: randomInteger(7, 11),
       direction: Math.PI / 6,
     },)}
   }
     if (seconds === randomInteger(40, 50) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
-      width: 40,
-      height: 40,
-      speed: 5,
+      width: 60,
+      height: 30,
+      speed: randomInteger(7, 10),
       direction: Math.PI / 6,
     },)}
 
-    if (seconds === randomInteger(50, 59) && milliseconds === 0) {arrows.push({
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      speed: 5,
-      direction: Math.PI / 6,
-    },)}
+    if (minutes === 0 && seconds === 0 && milliseconds === 0) {
+      saws.push( { // верхняя пила
+        x: 0,
+        y: -39,
+        width: 80,
+        height: 80,
+        speed: 0,
+        direction: Math.PI,
+        type: 1
+      },
+    )
+  }
 
-  //   if (seconds === 3 && milliseconds === 0) {
-  //     saws.push( { // верхняя пила
-  //       x: 0,
-  //       y: -39,
-  //       width: 80,
-  //       height: 80,
-  //       speed: 0,
-  //       direction: Math.PI,
-  //       type: 1
-  //     },
-  //   )
-  // }
-
-  if (seconds === randomInteger(5, 10) && milliseconds === 0) {
+  if (minutes === 0 && seconds === 45 && milliseconds === 0) {
     saws.push( { // правая пила
       x: 875,
       y: -39,
@@ -632,7 +623,7 @@ function main() {
   )
 }
 
-if (seconds === randomInteger(15,25) && milliseconds === 0) {
+if ( minutes === 1 && seconds === 10 && milliseconds === 0) {
   saws.push( { // левая пила
     x: -40,
     y: 486,
@@ -645,7 +636,7 @@ if (seconds === randomInteger(15,25) && milliseconds === 0) {
 )
 }
 
-if (seconds === randomInteger(30, 40) && milliseconds === 0) {
+if (minutes === 0 && seconds === 26  && milliseconds === 0) {
   saws.push( { // нижняя пила
     x: 875,
     y: 481,
