@@ -2,6 +2,7 @@ const myModal = new bootstrap.Modal(document.getElementById("gameOver"));
 
 let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
+
 let audio = document.getElementById("noise");
 let playButton = document.getElementById("playButton");
 let playGameButton = document.getElementById("playGameButton");
@@ -10,10 +11,39 @@ let stopwatchInterval;
 let milliseconds = 0;
 let seconds = 0
 let minutes = 0;
-
 let playStatus = false;
 
+let tick = 0;
+let gameLoopId;
+let tickRate = 60;  // Assuming the game runs at 60 FPS
+let alertInterval = 5 * tickRate;  // Alert every 5 seconds
+
+function gameLoop() {
+    tick++;
+
+    // Выводим номер текущего тика в консоль
+    console.log("Tick: " + tick);
+
+    // ... ваш код обновления игры здесь ...
+
+    gameLoopId = requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+    // Отменяем предыдущий цикл игры, если он есть
+    if (gameLoopId !== undefined) {
+        cancelAnimationFrame(gameLoopId);
+    }
+
+    // Сбрасываем счетчик тиков
+    tick = 0;
+
+    // Запускаем новый цикл игры
+    requestAnimationFrame(gameLoop);
+}
+
 const startGameFunction = () => {
+  startGame();
   playStatus = true;
   main();
 };
@@ -52,6 +82,9 @@ function main() {
   // playGameButton.setAttribute('disabled', true);
 
   function showGameOver() {
+    if (gameLoopId !== undefined) {
+      cancelAnimationFrame(gameLoopId);
+    }
     document.querySelector('#playTime').textContent = `${document.querySelector('#minutes').textContent} минут и ${document.querySelector('#seconds').textContent} секунд`
     myModal.show();
     stopStopwatch();
@@ -431,7 +464,6 @@ function main() {
     });
   }
 
-  // Обновление игры и отрисовка игрока и стрелы
   function update() {
     console.log(saws.length)
     console.log(saws)
@@ -544,15 +576,6 @@ function main() {
       return Math.round(rand);
     }
     function round1() {
-    // if (seconds === randomInteger(0, 5) && milliseconds === 0) {arrows.push({
-    //   x: 0,
-    //   y: 0,
-    //   width: 40,
-    //   height: 40,
-    //   speed: randomInteger(7, 10),
-    //   direction: Math.PI / 6,
-    // },)}
-
     if (seconds === randomInteger(5, 10) && milliseconds === 0) {
       arrows.push({
         x: 0,
@@ -584,7 +607,7 @@ function main() {
         speed: randomInteger(7, 11),
         direction: Math.PI / 6,
       },)}
-  }
+    } 
     if (seconds === randomInteger(40, 50) && milliseconds === 0) {arrows.push({
       x: 0,
       y: 0,
@@ -594,7 +617,20 @@ function main() {
       direction: Math.PI / 6,
     },)}
     
-    if (minutes === 0 && seconds === 2 && milliseconds === 0) {
+    if (tick !== 0 && tick % alertInterval === 0 && saws.length === 0) {
+      saws.push( { // нижняя пила
+        x: 875,
+        y: 481,
+        width: 80,
+        height: 80,
+        speed: 0,
+        direction: Math.PI,
+        type: 4
+      },)
+      tick = 0
+    }
+
+    if (tick !== 0 && tick % (9 * 60) === 0 && saws.length === 1) {
       saws.push( { // верхняя пила
         x: 0,
         y: -39,
@@ -603,48 +639,36 @@ function main() {
         speed: 0,
         direction: Math.PI,
         type: 1
-      },
-    )
+      })
+      tick = 0
     }
 
-    // if (minutes === 0 && seconds === 45 && milliseconds === 0) {
-    //   saws.push( { // правая пила
-    //     x: 875,
-    //     y: -39,
-    //     width: 80,
-    //     height: 80,
-    //     speed: 0,
-    //     direction: Math.PI,
-    //     type: 2
-    //   },
-    // )
-    // }
+    if (tick !== 0 && tick % (19 * 60) === 0 && saws.length === 2) {
+      saws.push( { // правая пила
+        x: 875,
+        y: -39,
+        width: 80,
+        height: 80,
+        speed: 0,
+        direction: Math.PI,
+        type: 2
+      })
+      tick = 0
+    }
 
-    // if ( minutes === 1 && seconds === 10 && milliseconds === 0) {
-    //   saws.push( { // левая пила
-    //     x: -40,
-    //     y: 486,
-    //     width: 80,
-    //     height: 80,
-    //     speed: 0,
-    //     direction: Math.PI,
-    //     type: 3
-    //   },
-    // )
-    // }
+    if (tick !== 0 && tick % (19 * 60) === 0 && saws.length === 3) {
+      saws.push( { // левая пила
+        x: -40,
+        y: 486,
+        width: 80,
+        height: 80,
+        speed: 0,
+        direction: Math.PI,
+        type: 3
+      })
+      tick = 0
+    }
 
-    // if (minutes === 0 && seconds === 26  && milliseconds === 0) {
-    //   saws.push( { // нижняя пила
-    //     x: 875,
-    //     y: 481,
-    //     width: 80,
-    //     height: 80,
-    //     speed: 0,
-    //     direction: Math.PI,
-    //     type: 4
-    //   },
-    // )
-    // }
 
     for (var i = 0; i < arrows.length; i++) {
       var arrow = arrows[i];

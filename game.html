@@ -168,7 +168,9 @@
         </a>
       </div>
       <div id="stopwatch" class="d-flex">
-        <span id="minutes">00</span>:<span id="seconds">00</span>
+        <div class="alert alert-info py-1 mt-2" role="alert">
+          <span id="minutes">00</span>:<span id="seconds">00</span>
+        </div>
       </div>
       <audio id="noise" src="music/noise.mp3" loop></audio>
       <div id="playButtonWrapper"> <button id="playButton">🔊</button> </div> 
@@ -189,30 +191,31 @@
           </div>
         </div>
       </div>
-      <canvas id="gameCanvas" width="913" height="520"></canvas>
-    <div class="alert alert-light mx-auto" role="alert">
-        <div class="d-flex flex-row gap-2">
-          <div id="healthBar">HP: 100%</div> | <div id="armorBar">Armor: 0%</div>
+      <div style="position: relative;">
+        <canvas id="gameCanvas" width="913" height="520"></canvas>
+        <div class="toolBar">
+            <div class="d-flex flex-row gap-2">
+              <div id="healthBar">HP: 100%</div> <div id="armorBar">Armor: 0%</div>
+            </div>
         </div>
       </div>
-      <button type="button" class="btn btn-primary alert-light mid" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="changeSkinButton" data-bs-toggle="dropdown" aria-expanded="false">
-        Выбор персонажа
-      </button>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameOver">
-        Launch demo modal
-      </button>
-      <ul class="dropdown-menu">
-        <div class="d-flex px-2 gap-1">
-          <li><button type="button" class="btn" id="" onclick="changeSkin(1)"><img src="custom/king-down5.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(2)"><img src="custom/down3.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(3)"><img src="custom/smile-down4.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(4)"><img src="custom/x-down.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(5)"><img src="custom/down-skel.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(6)"><img src="custom/call-down4.png" width="40" height="40"/></button></li>
-          <li><button type="button" class="btn" id="" onclick="changeSkin(7)"><img src="custom/blackhole-down6.png" width="40" height="40"/></button></li>
-        </div>
-      </ul>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-primary alert-light mid" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="changeSkinButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Выбор персонажа
+        </button>
+        <ul class="dropdown-menu">
+          <div class="d-flex px-2 gap-1">
+            <li><button type="button" class="btn" id="" onclick="changeSkin(1)"><img src="custom/king-down5.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(2)"><img src="custom/down3.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(3)"><img src="custom/smile-down4.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(4)"><img src="custom/x-down.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(5)"><img src="custom/down-skel.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(6)"><img src="custom/call-down4.png" width="40" height="40"/></button></li>
+            <li><button type="button" class="btn" id="" onclick="changeSkin(7)"><img src="custom/blackhole-down6.png" width="40" height="40"/></button></li>
+          </div>
+        </ul>
+      </div>
     </div>
   </main>
   <script src="./assets/js/index.js"></script>
