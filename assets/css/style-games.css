@@ -16,7 +16,7 @@
   }
 
   #gameCanvas {
-    background-color: gray;
+    background-image: url("/custom/fon.png");
   }
 
   #healthBar, #armorBar {
