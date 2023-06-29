@@ -181,8 +181,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-4">Игра окончена</h5>
-              <p class="mb-0">Вы проиграли, но держались достойно <span id="playTime"></span></p>
+              <p class="mb-0">Вы держались достойно<br/> <span class="fs-5 text-light" id="playTime"></span></p>
             </div>
             <div class="modal-footer p-0">
               <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 w-100" data-bs-dismiss="modal">Продолжить</button>
@@ -191,23 +190,6 @@
         </div>
       </div>
       <canvas id="gameCanvas" width="913" height="520"></canvas>
-      <!-- <div class="modal fade" id="gameOver" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Игра окончена</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                Вы проиграли, но держались достойно <span id="playTime"></span><br/>
-                Попробуйте продержаться дольше! ;)
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>
-              </div>
-            </div>
-          </div>
-      </div> -->
     <div class="alert alert-light mx-auto" role="alert">
         <div class="d-flex flex-row gap-2">
           <div id="healthBar">HP: 100%</div> | <div id="armorBar">Armor: 0%</div>
@@ -216,6 +198,9 @@
       <button type="button" class="btn btn-primary alert-light mid" id="playGameButton" onclick="startGameFunction()">Начать игру</button>
       <button class="btn btn-secondary dropdown-toggle" type="button" id="changeSkinButton" data-bs-toggle="dropdown" aria-expanded="false">
         Выбор персонажа
+      </button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameOver">
+        Launch demo modal
       </button>
       <ul class="dropdown-menu">
         <div class="d-flex px-2 gap-1">
