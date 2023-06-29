@@ -188,8 +188,7 @@ function main() {
     },
   ];
 
-  var saws = [
-   ];
+  var saws = [];
 
   var heal = [
     {
@@ -684,7 +683,7 @@ if (minutes === 0 && seconds === 26  && milliseconds === 0) {
     }
 
   if (saws.length >= 1) {
-    for (var i = 0; i < saws.length; i++) {
+    for (var i = 1; i < saws.length; i++) {
       var saw = saws[i];
       context.drawImage(
         sawAnimation,
