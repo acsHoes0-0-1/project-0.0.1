@@ -16,7 +16,7 @@
   }
 
   #gameCanvas {
-    background-image: url("./custom/fon.png");
+    background-image: url("file:///C:/Users/user/Desktop/github/project-0.0.1/custom/fon.png");
   }
   .toolBar {
         position: absolute;
