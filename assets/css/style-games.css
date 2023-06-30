@@ -16,7 +16,7 @@
   }
 
   #gameCanvas {
-    background-image: url("/custom/fon.png");
+    background-image: url("https://vandopal.github.io/project-0.0.1/custom/fon.png");
   }
   .toolBar {
         position: absolute;
